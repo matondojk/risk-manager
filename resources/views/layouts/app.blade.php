@@ -23,7 +23,6 @@
                 darkMode: 'class', // Disables OS-level dark mode
             }
         </script>
-        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     </head>
     <body class="font-sans text-gray-900 bg-gray-50 dark:bg-gray-950 dark:text-gray-100 transition-colors duration-200" x-data="{ sidebarOpen: false }">
         
