@@ -1,58 +1,112 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Risk Manager
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Risk Manager é uma aplicação web empresarial para gestão de riscos, desenvolvida em **Laravel 11**, com um design moderno e minimalista inspirado em *Shadcn UI*, utilizando **Tailwind CSS**. A aplicação foi concebida para fornecer às organizações uma forma estruturada de registar riscos, avaliar níveis inerentes, traçar planos de mitigação e gerar relatórios executivos.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🎯 Principais Funcionalidades
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+*   **Painel Executivo (Dashboard):** Visão geral e atalhos rápidos para gestão.
+*   **Mapa de Calor (Heatmap):** Visualização matricial 5x5 interativa de todos os riscos (Probabilidade vs Impacto).
+*   **Gestão de Riscos:** Registo de riscos com classificação automática (Crítico, Alto, Médio, Baixo) baseada em score (Matriz 5x5).
+*   **Planos de Ação:** Criação de planos de mitigação para cada risco (com orçamentos em Kz).
+*   **Relatórios (Exportação):** Exportação de dados dinâmicos em **PDF** e **Excel**.
+*   **Gestão de Utilizadores:** Registo, edição de utilizadores, e upload de foto de perfil (Avatar).
+*   **Controlo de Acessos Dinâmico (ACL):** Criação de **Perfis (Roles)** e associação granular de **Permissões (Permissions)** utilizando o *Spatie Laravel Permission*.
+*   **Configurações Globais:** Definição dinâmica do Nome da Aplicação e do Logótipo (exibido na interface e nos relatórios PDF exportados).
+*   **Localização:** Aplicação traduzida para Português (pt_BR), incluindo erros de validação e sistema de recuperação de palavra-passe.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🛠️ Tecnologias Utilizadas
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+*   **Backend:** PHP 8.5 / Laravel 11
+*   **Frontend:** Blade / Tailwind CSS / Alpine.js (Breeze)
+*   **Base de Dados:** MySQL (via Laravel Sail / Docker)
+*   **Gestão de Permissões:** Spatie Laravel Permission
+*   **Exportações:**
+    *   *Barryvdh Laravel DomPDF* (Para Relatórios PDF)
+    *   *Maatwebsite Excel* (Para Relatórios Excel)
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## 🚀 Instalação e Configuração
 
-## Agentic Development
+Como o projeto utiliza o **Laravel Sail** (Docker), o ambiente de desenvolvimento é muito fácil de configurar.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### Pré-requisitos
+*   [Docker](https://www.docker.com/products/docker-desktop) instalado e a correr no seu sistema.
+*   [Git](https://git-scm.com/) instalado.
 
-```bash
-composer require laravel/boost --dev
+### Passos
 
-php artisan boost:install
-```
+1. **Clonar o Repositório**
+   ```bash
+   git clone git@github.com:matondojk/risk-manager.git
+   cd risk-manager
+   ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+2. **Instalar as dependências do Composer**
+   (Se não tiver o PHP local instalado, pode usar uma pequena imagem Docker do composer):
+   ```bash
+   docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    laravelsail/php83-composer:latest \
+    composer install --ignore-platform-reqs
+   ```
+   *(Ou se tiver o PHP local, basta executar `composer install`)*
 
-## Contributing
+3. **Configurar o ficheiro de Ambiente**
+   ```bash
+   cp .env.example .env
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. **Subir os contentores Docker (Laravel Sail)**
+   ```bash
+   ./vendor/bin/sail up -d
+   ```
 
-## Code of Conduct
+5. **Gerar a Chave da Aplicação**
+   ```bash
+   ./vendor/bin/sail artisan key:generate
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+6. **Criar Link de Armazenamento (Storage)**
+   ```bash
+   ./vendor/bin/sail artisan storage:link
+   ```
 
-## Security Vulnerabilities
+7. **Executar Migrações e Seeders**
+   Isto irá criar a base de dados, criar os perfis padrão (Administrador, Gestor, etc.) e o primeiro utilizador.
+   ```bash
+   ./vendor/bin/sail artisan migrate:fresh --seed
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+8. **Compilar os Assets de Frontend**
+   ```bash
+   ./vendor/bin/sail npm install
+   ./vendor/bin/sail npm run build
+   ```
 
-## License
+A sua aplicação estará agora acessível em: `http://localhost`
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## 🔐 Acesso e Credenciais
+
+Ao correr as *seeders* (`db:seed`), o sistema criará utilizadores padrão de demonstração e irá atribuir automaticamente o perfil de **Administrador** ao primeiro utilizador do sistema.
+
+Se precisar de criar um utilizador administrador manualmente:
+1. Registe-se na aplicação.
+2. Na linha de comandos, execute o seeder das permissões:
+   ```bash
+   ./vendor/bin/sail artisan db:seed --class=RolePermissionSeeder
+   ```
+*(O primeiro utilizador registado receberá automaticamente permissões de Administrador)*.
+
+---
+
+## 👨‍💻 Desenvolvedor
+Desenvolvido por **[Matondo JK](https://github.com/matondojk)**.
