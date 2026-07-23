@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Gestor de Riscos',
             'password' => Hash::make('password'),
         ]);
-        $manager->assignRole('Gestor de Riscos');
+        $manager->assignRole('Gestor de Risco');
 
         // 2. Tabelas de Apoio
         $area = Area::firstOrCreate(['name' => 'Tecnologia da Informação']);
