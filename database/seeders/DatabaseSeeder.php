@@ -15,11 +15,8 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Perfis e Permissões
-        $roles = ['Administrador', 'Gestor de Riscos', 'Auditor', 'Utilizador'];
-        foreach ($roles as $r) {
-            Role::firstOrCreate(['name' => $r]);
-        }
+        // 1. Perfis e Permissões (Chamando a seeder específica)
+        $this->call(RolePermissionSeeder::class);
 
         $admin = User::firstOrCreate([
             'email' => 'admin@admin.com'
