@@ -52,8 +52,10 @@ class DatabaseSeeder extends Seeder
         Frequency::firstOrCreate(['name' => 'Semanal']);
         Frequency::firstOrCreate(['name' => 'Mensal']);
 
-        // 3. Gerar Massa de Dados Falsos usando Factories
-        \App\Models\Risk::factory(30)->create();
-        \App\Models\ActionPlan::factory(60)->create();
+        // 3. Gerar Massa de Dados Falsos usando Factories (apenas se o Faker estiver disponível)
+        if (function_exists('fake') && app()->environment('local', 'testing')) {
+            \App\Models\Risk::factory(30)->create();
+            \App\Models\ActionPlan::factory(60)->create();
+        }
     }
 }
